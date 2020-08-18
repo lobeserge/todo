@@ -3,6 +3,7 @@ package app.todo.controllers;
 import app.todo.dto.NewToDoDTO;
 import app.todo.dto.UpdateToDoDTO;
 import app.todo.dto.UpdateTodoDueDateDTO;
+import app.todo.dto.UpdateTodoStatus;
 import app.todo.model.Todo;
 import app.todo.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +59,10 @@ public class TodoController {
     Todo updateTodoDueDate(@RequestBody UpdateTodoDueDateDTO updateTodoDueDateDTO) {
        return  todoService.updateTodoDate(updateTodoDueDateDTO);
     }
-
-
-
+    
+    @PutMapping("/update/status")
+    Todo updateTodoStatus(@RequestBody UpdateTodoStatus updateTodoStatus) {
+        return  todoService.updateTodoStatus(updateTodoStatus);
+    }
 
 }

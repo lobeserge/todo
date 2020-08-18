@@ -3,6 +3,7 @@ package app.todo.services.ServiceImpl;
 import app.todo.dto.NewToDoDTO;
 import app.todo.dto.UpdateToDoDTO;
 import app.todo.dto.UpdateTodoDueDateDTO;
+import app.todo.dto.UpdateTodoStatus;
 import app.todo.model.Status;
 import app.todo.model.Todo;
 import app.todo.repository.TodoRepository;
@@ -119,7 +120,28 @@ public class TodoServiceImpl implements TodoService {
 
                 });
     }
+
+    @Override
+    public Todo updateTodoStatus(UpdateTodoStatus updateTodoStatus) {
+
+        return todoRepository.findById(updateTodoStatus.getTodo_id())
+                .map(l-> {
+                    if(updateTodoStatus.getTodo_status().equalsIgnoreCase("completed")){
+                        l.setTodo_status(Status.COMPLETED.toString()
+                        );
+                    }
+                    else if(updateTodoStatus.getTodo_status().equalsIgnoreCase("pending")){
+                        l.setTodo_status(Status.PENDING.toString()
+                        );
+                    }
+                    return todoRepository.save(l);
+                })
+                .orElseGet(() -> {
+                    return null;
+
+                });
     }
+}
 
 
 

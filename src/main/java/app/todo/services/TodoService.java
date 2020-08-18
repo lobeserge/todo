@@ -3,6 +3,7 @@ package app.todo.services;
 import app.todo.dto.NewToDoDTO;
 import app.todo.dto.UpdateToDoDTO;
 import app.todo.dto.UpdateTodoDueDateDTO;
+import app.todo.dto.UpdateTodoStatus;
 import app.todo.model.Todo;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public interface TodoService {
      List<Todo> getAllUserTodoByStatus(String todo_status,Long user_id);
      Todo updateTodo(UpdateToDoDTO updateToDoDTO);
      Todo updateTodoDate(UpdateTodoDueDateDTO updateTodoDueDateDTO);
-
+     Todo updateTodoStatus(UpdateTodoStatus updateTodoStatus);
 
 }
 
