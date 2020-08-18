@@ -1,20 +1,18 @@
 package app.todo.services.ServiceImpl;
 
 import app.todo.dto.NewToDoDTO;
+import app.todo.dto.UpdateToDoDTO;
+import app.todo.dto.UpdateTodoDueDateDTO;
 import app.todo.model.Status;
 import app.todo.model.Todo;
 import app.todo.repository.TodoRepository;
 import app.todo.repository.UserRepository;
-import app.todo.security.services.UserDetailsImpl;
 import app.todo.services.TodoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,7 +67,7 @@ public class TodoServiceImpl implements TodoService {
         List<Todo> user_todos = todoRepository.findAll().stream().filter(
                 e->e.getUser().getId()==user_id
         ).collect(Collectors.toList());
-        return user_todos.stream().filter(e->e.getTodo_creation_date().equals(localDate))
+        return user_todos.stream().filter(e->e.getTodo_creation_date().isEqual(localDate))
                 .collect(Collectors.toList());
     }
 
@@ -93,5 +91,36 @@ public class TodoServiceImpl implements TodoService {
        return todo_list;
     }
 
+    @Override
+    public Todo updateTodo(UpdateToDoDTO updateToDoDTO) {
 
-}
+        return todoRepository.findById(updateToDoDTO.getTodo_id())
+                .map(l-> {
+                    l.setTodo_name(updateToDoDTO.getTodo_name());
+                    l.setTodo_description(updateToDoDTO.getTodo_name());
+                    return todoRepository.save(l);
+                })
+                .orElseGet(() -> {
+                    return null;
+
+                });
+    }
+
+    @Override
+    public Todo updateTodoDate(UpdateTodoDueDateDTO updateTodoDueDateDTO) {
+
+        return todoRepository.findById(updateTodoDueDateDTO.getTodo_id())
+                .map(l-> {
+                    l.setTodo_due_date(updateTodoDueDateDTO.getTodo_due_date());
+                    return todoRepository.save(l);
+                })
+                .orElseGet(() -> {
+                    return null;
+
+                });
+    }
+    }
+
+
+
+

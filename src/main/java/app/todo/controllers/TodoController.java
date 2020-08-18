@@ -1,6 +1,9 @@
 package app.todo.controllers;
 
 import app.todo.dto.NewToDoDTO;
+import app.todo.dto.UpdateToDoDTO;
+import app.todo.dto.UpdateTodoDueDateDTO;
+import app.todo.model.Todo;
 import app.todo.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -40,12 +43,23 @@ public class TodoController {
         return ResponseEntity.ok(todoService.getAllUserTodoByStatus(todo_status,user_id));
     }
 
-    @GetMapping("user_id/{user_id}/data/{todo_date}")
-    public ResponseEntity<?>  getAllUserTodoByDate(@PathVariable("todo_date")
-             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate todo_date, @PathVariable("user_id") Long user_id){
+    @GetMapping("user_id/{user_id}/date/{todo_date}")
+    public ResponseEntity<?>  getAllUserTodoByDate(@PathVariable("user_id") Long user_id,@PathVariable("todo_date")
+             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate todo_date){
         return ResponseEntity.ok(todoService.getAllUserTodoByDate(todo_date,user_id));
     }
 
-
-
+    @PutMapping("/update")
+    Todo updateTodo(@RequestBody UpdateToDoDTO updateToDoDTO ) {
+        return  todoService.updateTodo(updateToDoDTO);
     }
+
+    @PutMapping("/update/due_date")
+    Todo updateTodoDueDate(@RequestBody UpdateTodoDueDateDTO updateTodoDueDateDTO) {
+       return  todoService.updateTodoDate(updateTodoDueDateDTO);
+    }
+
+
+
+
+}
